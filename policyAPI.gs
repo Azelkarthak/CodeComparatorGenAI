@@ -25,7 +25,7 @@ class AgentPortalPolicyApiHandler {
       var payloadDetails : String
       var account = Account.finder.findAccountByAccountNumber(body)
       if (account == null) {
-        var policy = findPolicyByNumber(body)
+        var job = findJobByJobNumber(body)
         if(policy == null){
           var errorMessage = DisplayKey.get("AgentPortal.PolicyApiHandler.Error.InvalidAccountNumberOrPolicyNumber",body)
         _logger.error(errorMessage);
@@ -133,7 +133,7 @@ class AgentPortalPolicyApiHandler {
   private function findPolicyByNumber(body : String) : Policy {
     _logger.info(DisplayKey.get("AgentPortal.PolicyApiHandler.Info.ExtractingPayloadData"))
     var policy = Policy.finder.findPolicyByPolicyNumber(body)
-    if (policy != null) {
+    if (policy == null) {
       var errorMessage = DisplayKey.get("AgentPortal.PolicyApiHandler.Error.InvalidAccountNumberOrPolicyNumber",body)
       _logger.error(errorMessage);
       throw new IllegalArgumentException(errorMessage);
